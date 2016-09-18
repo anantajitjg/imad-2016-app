@@ -14,7 +14,7 @@ body {
     padding: 30px;
     color: #bfbfbf;
 }
-#wrapper hr{
+#wrapper .small-hr{
 	width: 300px;
     opacity: 0.5;
 }
