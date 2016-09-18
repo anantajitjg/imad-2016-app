@@ -5,7 +5,7 @@ body {
     margin-top: 75px;
 }
 #wrapper{
-	width: 474px;
+	max-width: 474px;
     margin: 0px auto;
     background-color: #121212;
     opacity: 0.84;
