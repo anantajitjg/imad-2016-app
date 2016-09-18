@@ -6,17 +6,17 @@ var app = express();
 app.use(morgan('combined'));
 
 var articles={
-    articleOne:{
+    'article-one':{
         title:"Article One | Anantajit",
         heading:"Article One",
         content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
     },
-    articleTwo:{
+    'article-two':{
         title:"Article Two | Anantajit",
         heading:"Article Two",
         content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
     },
-    articleThree:{
+    'article-three':{
         title:"Article Three | Anantajit",
         heading:"Article Three",
         content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
@@ -51,14 +51,9 @@ return htmlTemplate;
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-app.get('/article-one',function(req,res){
-   res.send(createTemplate(articleOne));
-});
-app.get('/article-two',function(req,res){
-   res.send(createTemplate(articleTwo));
-});
-app.get('/article-three',function(req,res){
-   res.send(createTemplate(articleThree));
+app.get('/:articleID',function(req,res){
+    var articleObj=req.params.articleID;
+   res.send(createTemplate(articles[articleObj]));
 });
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
