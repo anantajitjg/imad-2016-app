@@ -5,11 +5,24 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
-var articleOne={
-    title:"Article One | Anantajit",
-    heading:"Article One",
-    content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is</p>`
+var articles={
+    articleOne:{
+        title:"Article One | Anantajit",
+        heading:"Article One",
+        content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
+    },
+    articleTwo:{
+        title:"Article Two | Anantajit",
+        heading:"Article Two",
+        content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
+    },
+    articleThree:{
+        title:"Article Three | Anantajit",
+        heading:"Article Three",
+        content:`<p>This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.This is article.</p>`
+    }
 };
+
 function createTemplate(dataObj){
     var title=dataObj.title;
     var heading=dataObj.heading;
@@ -34,6 +47,7 @@ function createTemplate(dataObj){
 ;
 return htmlTemplate;
 }
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
@@ -41,10 +55,10 @@ app.get('/article-one',function(req,res){
    res.send(createTemplate(articleOne));
 });
 app.get('/article-two',function(req,res){
-   res.sendFile(path.join(__dirname,'ui','article-two.html'));
+   res.send(createTemplate(articleTwo));
 });
 app.get('/article-three',function(req,res){
-   res.sendFile(path.join(__dirname,'ui','article-three.html'));
+   res.send(createTemplate(articleThree));
 });
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
