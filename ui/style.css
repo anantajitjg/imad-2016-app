@@ -21,17 +21,18 @@ body {
 .center {
     text-align: center;
 }
-
 .text-big {
     font-size: 200%;
 }
-
 .bold {
     font-weight: bold;
 }
-
 .img-medium {
     height: 200px;
 }
+#logo{
+	cursor:pointer;
+}
+
 
 
