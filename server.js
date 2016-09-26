@@ -62,7 +62,7 @@ app.get('/:articleID',function(req,res){
 });
 var names=[];
 app.get('/submit/:name',function(req,res){
-    var name=req.param.name;
+    var name=req.params.name;
     names.push(name);
     //JSON
     res.send(JSON.stringify(names));
