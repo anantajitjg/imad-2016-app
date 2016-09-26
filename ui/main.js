@@ -28,7 +28,6 @@ submit_comment.onclick=function(){
     if(request.readyState===XMLHttpRequest.DONE){
         if(request.status===200){
             var comments=JSON.parse(request.responseText);
-            //var comments=request.responseText;
             var list="";
             for(var i=0;i<comments.length;i++){
                 if(comments[i]!==null){
