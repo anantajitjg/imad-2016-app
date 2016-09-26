@@ -17,19 +17,25 @@ logo.onmouseout=function(){
 	angle=0;
 	clearInterval(rotate);
 };
-//counter code goes here
-var button=document.getElementById("counter");
-var span=document.getElementById("count");
-button.onclick=function(){
+//comments
+var comment=document.getElementById("comment");
+var submit_comment=document.getElementById("submit_comment");
+var comment_list=document.getElementById("comment_list");
+submit_comment.onclick=function(){
+    var comment_value=comment.value;
   var request=new XMLHttpRequest();
   request.onreadystatechange=function(){
     if(request.readyState===XMLHttpRequest.DONE){
         if(request.status===200){
-            var counter=request.responseText;
-            span.innerHTML=counter.toString();
+            var comments=JSON.parse(request.responseText);
+            var list="";
+            for(var i=0;i<comments.length;i++){
+                list+="<li>"+comments[i]+"</li>";
+            }
+            comment_list.innerHTML=list;
         }
     }  
   };
-  request.open("GET","http://anantajitjg.imad.hasura-app.io/counter",true);
-  request.send();
+  request.open("POST","http://anantajitjg.imad.hasura-app.io/submit",true);
+  request.send("comment="+comment_value);
 };
