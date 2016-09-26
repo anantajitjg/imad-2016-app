@@ -23,6 +23,7 @@ var submit_comment=document.getElementById("submit_comment");
 var comment_list=document.getElementById("comment_list");
 submit_comment.onclick=function(){
     var comment_value=comment.value;
+    console.log(comment_value);
   var request=new XMLHttpRequest();
   request.onreadystatechange=function(){
     if(request.readyState===XMLHttpRequest.DONE){
