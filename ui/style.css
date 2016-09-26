@@ -30,7 +30,7 @@ body {
 .img-medium {
     height: 200px;
 }
-#logo{
+#counter,#logo{
 	cursor:pointer;
 }
 
