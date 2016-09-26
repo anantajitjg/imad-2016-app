@@ -59,7 +59,7 @@ app.get('/counter',function(req,res){
 var comments=[];
 app.post('/submit',function(req,res){
     var comment=req.params.comment;
-    comments.push(name);
+    comments.push(comment);
     //JSON
     res.send(JSON.stringify(comments));
 });
