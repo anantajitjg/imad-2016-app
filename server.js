@@ -60,6 +60,13 @@ app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
    res.send(createTemplate(articles[articleObj]));
 });
+var names=[];
+app.get('/submit/:name',function(req,res){
+    var name=req.param.name;
+    names.push(name);
+    //JSON
+    res.send(JSON.stringify(names));
+});
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
