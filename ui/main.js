@@ -28,13 +28,13 @@ submit_comment.onclick=function(){
   request.onreadystatechange=function(){
     if(request.readyState===XMLHttpRequest.DONE){
         if(request.status===200){
-            //var comments=JSON.parse(request.responseText);
-            var comments=request.responseText;
-            /*var list="";
+            var comments=JSON.parse(request.responseText);
+            //var comments=request.responseText;
+            var list="";
             for(var i=0;i<comments.length;i++){
                 list+="<li>"+comments[i]+"</li>";
-            }*/
-            comment_list.innerHTML=comments;
+            }
+            comment_list.innerHTML=list;
         }
     }  
   };
