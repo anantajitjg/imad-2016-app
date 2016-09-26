@@ -31,11 +31,11 @@ submit_comment.onclick=function(){
             //var comments=request.responseText;
             var list="";
             for(var i=0;i<comments.length;i++){
-                list+="<li>"+comments[i]+"</li>";
+                if(comments[i]!==null){
+                    list+="<li>"+comments[i]+"</li>";
+                }
             }
             comment_list.innerHTML=list;
-        }else{
-            comment_list.innerHTML="<li>Error Loading Comments!</li>";
         }
     }  
   };
