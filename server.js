@@ -58,11 +58,11 @@ app.get('/counter',function(req,res){
 });
 var comments=[];
 app.post('/submit',function(req,res){
-    var comment=req.params.comment;
+    var comment=req.body.comment;
     comments.push(comment);
     //JSON
-    res.send("test");
-    //res.send(JSON.stringify(comments));
+    //res.send("test");
+    res.send(JSON.stringify(comments));
 });
 app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
