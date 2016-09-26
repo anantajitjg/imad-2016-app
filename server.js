@@ -57,8 +57,8 @@ app.get('/counter',function(req,res){
     res.send(counter.toString());
 });
 var comments=[];
-app.post('/submit',function(req,res){
-    var comment=req.body.comment;
+app.get('/submit',function(req,res){
+    var comment=req.params.comment;
     comments.push(comment);
     //JSON
     //res.send("test");
