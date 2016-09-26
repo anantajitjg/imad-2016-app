@@ -34,6 +34,8 @@ submit_comment.onclick=function(){
                 list+="<li>"+comments[i]+"</li>";
             }
             comment_list.innerHTML=list;
+        }else{
+            comment_list.innerHTML="<li>Error Loading Comments!</li>";
         }
     }  
   };
