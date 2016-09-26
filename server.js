@@ -56,16 +56,16 @@ app.get('/counter',function(req,res){
     counter=counter+1;
     res.send(counter.toString());
 });
+var comments=[];
+app.post('/submit',function(req,res){
+    var comment=req.params.comment;
+    comments.push(name);
+    //JSON
+    res.send(JSON.stringify(comments));
+});
 app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
    res.send(createTemplate(articles[articleObj]));
-});
-var names=[];
-app.get('/submit/:name',function(req,res){
-    var name=req.params.name;
-    names.push(name);
-    //JSON
-    res.send(JSON.stringify(names));
 });
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
