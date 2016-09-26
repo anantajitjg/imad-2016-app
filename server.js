@@ -58,7 +58,7 @@ app.get('/counter',function(req,res){
 });
 var comments=[];
 app.get('/submit',function(req,res){
-    var comment=req.params.comment;
+    var comment=req.query.comment;
     comments.push(comment);
     //JSON
     //res.send("test");

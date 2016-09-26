@@ -23,7 +23,7 @@ var submit_comment=document.getElementById("submit_comment");
 var comment_list=document.getElementById("comment_list");
 submit_comment.onclick=function(){
     var comment_value=comment.value;
-    console.log(comment_value);
+    //console.log(comment_value);
   var request=new XMLHttpRequest();
   request.onreadystatechange=function(){
     if(request.readyState===XMLHttpRequest.DONE){
@@ -38,6 +38,6 @@ submit_comment.onclick=function(){
         }
     }  
   };
-  request.open("GET","http://anantajitjg.imad.hasura-app.io/submit?comment="+comment_value,true);
+  request.open("GET","http://localhost:8080/submit?comment="+comment_value,true);
   request.send();
 };
