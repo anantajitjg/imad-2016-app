@@ -37,5 +37,6 @@ submit_comment.onclick=function(){
     }  
   };
   request.open("POST","http://anantajitjg.imad.hasura-app.io/submit",true);
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   request.send("comment="+comment_value);
 };
