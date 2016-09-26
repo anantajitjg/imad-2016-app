@@ -17,3 +17,9 @@ logo.onmouseout=function(){
 	angle=0;
 	clearInterval(rotate);
 };
+//counter code goes here
+var button=document.getElementById("counter");
+button.onclick=function(){
+  var request=new XMLHTTPRequest();
+  
+};
