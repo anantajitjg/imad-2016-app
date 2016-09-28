@@ -34,25 +34,32 @@ body {
 	cursor:pointer;
 }
 .btn_primary {
-  -webkit-border-radius: 5;
-  -moz-border-radius: 5;
-  border-radius: 5px;
-  font-size: 12px;
-  color:#ffffff;
-  background: #33C3F0;
-  border: 1px solid#33C3F0;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-  cursor: pointer;
-  outline: 0;
-  font-weight: bold;
-  text-transform: uppercase;
+    -webkit-border-radius: 5;
+    -moz-border-radius: 5;
+    border-radius: 5px;
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    font-size: 12px;
+    color:#ffffff;
+    background: #33C3F0;
+    border: 1px solid#33C3F0;
+    cursor: pointer;
+    outline: 0;
 }
 
 .btn_primary:hover {
-  background: #1EAEDB;
-  border-color:#1EAEDB;
-  text-decoration: none;
+    background: #1EAEDB;
+    border-color:#1EAEDB;
+    text-decoration: none;
 }
 
 
