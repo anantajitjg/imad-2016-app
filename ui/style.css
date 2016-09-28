@@ -1,5 +1,5 @@
 body {
-    font-family: Verdana,sans-serif;
+    font-family: 'Open Sans', Verdana, sans-serif;
     background-color: lightgrey;
     background:url('/ui/bg.png');
     margin-top: 75px;
@@ -37,13 +37,15 @@ body {
   -webkit-border-radius: 5;
   -moz-border-radius: 5;
   border-radius: 5px;
-  color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
   background: #33C3F0;
-  border-color:#33C3F0;
+  border: 1px solid#33C3F0;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
-  cursor:pointer;
+  cursor: pointer;
+  outline: 0;
+  /* font-weight: bold; */
+  text-transform: uppercase;
 }
 
 .btn_primary:hover {
