@@ -33,6 +33,20 @@ body {
 #counter,#logo{
 	cursor:pointer;
 }
+.btn-primary {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 11px;
+  background: #33C3F0;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
 
+.btn-primary:hover {
+  background: #1EAEDB;
+  text-decoration: none;
+}
 
 
