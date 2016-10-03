@@ -64,7 +64,10 @@ function createTemplate(dataObj){
 return htmlTemplate;
 }
 
-app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
+//app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
+app.get('/fonts/:fontName', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui/fonts/', req.params.fontName));
+});
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
