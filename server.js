@@ -65,9 +65,6 @@ return htmlTemplate;
 }
 
 //app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
-});
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
@@ -115,10 +112,8 @@ app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
    res.send(createTemplate(articles[articleObj]));
 });
-var counter=0;
-app.get('/counter',function(req,res){
-    counter=counter+1;
-    res.send(counter.toString());
+app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
 });
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
