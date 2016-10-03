@@ -65,8 +65,8 @@ return htmlTemplate;
 }
 
 //app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-app.get('/fonts/:fontName', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/fonts/', req.params.fontName));
+app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
 });
 
 app.get('/', function (req, res) {
