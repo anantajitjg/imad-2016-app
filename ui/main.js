@@ -23,7 +23,7 @@ submit_comment.onclick=function(){
 			}
 		}  
 		};
-		request.open("GET","http://anantajitjg.imad.hasura-app.io/submit?comment="+comment_value,true);
+		request.open("GET","/submit?comment="+comment_value,true);
 		request.send();
 	}else{
 		comment.focus();
