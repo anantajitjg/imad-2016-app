@@ -1,43 +1,32 @@
-console.log('Loaded!');
-var logo=document.getElementById("logo");
-var rotate;
-var angle=0;
-function logoRotate(){
-	angle=angle+45;
-	logo.style.transform="rotate("+angle+"deg)";
-	if(angle==1080){
-		clearInterval(rotate);
-	}
-}
-logo.onmouseover=function(){
-	angle=0;
-	rotate=setInterval(logoRotate,50);
-};
-logo.onmouseout=function(){
-	angle=0;
-	clearInterval(rotate);
-};
-//comments
+//console.log('Loaded!');
+//comments specific
 var comment=document.getElementById("comment");
 var submit_comment=document.getElementById("submit_comment");
 var comment_list=document.getElementById("comment_list");
 submit_comment.onclick=function(){
     var comment_value=comment.value;
-  var request=new XMLHttpRequest();
-  request.onreadystatechange=function(){
-    if(request.readyState===XMLHttpRequest.DONE){
-        if(request.status===200){
-            var comments=JSON.parse(request.responseText);
-            var list="";
-            for(var i=0;i<comments.length;i++){
-                if(comments[i]!==null){
-                    list+="<li>"+comments[i]+"</li>";
-                }
-            }
-            comment_list.innerHTML=list;
-        }
-    }  
-  };
-  request.open("GET","http://anantajitjg.imad.hasura-app.io/submit?comment="+comment_value,true);
-  request.send();
+	if(comment_value.length>0){
+		comment.style.outline="none";
+		var request=new XMLHttpRequest();
+		comment_list.innerHTML="<li><h4><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> Loading Comments...</h4></li>";
+		request.onreadystatechange=function(){
+		if(request.readyState===XMLHttpRequest.DONE){
+			if(request.status===200){
+				var comments=JSON.parse(request.responseText);
+				var list="";
+				for(var i=0;i<comments.content.length;i++){
+					if(comments.content[i]!==null){
+						list+="<li><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+comments.content[i]+"<br /><span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comments.date[i]+"</li>";
+					}
+				}
+				comment_list.innerHTML=list;
+			}
+		}  
+		};
+		request.open("GET","/submit?comment="+comment_value,true);
+		request.send();
+	}else{
+		comment.focus();
+		comment.style.outline="1px solid #d57171";
+	}
 };
