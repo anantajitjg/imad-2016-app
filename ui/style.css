@@ -1,6 +1,6 @@
 body {
     font-family: 'Open Sans', Verdana, sans-serif;
-    background-color: lightgrey;
+	font-size:16px;
     background:url('/img/bg.png') no-repeat;
 	background-size:cover;
     margin-top: 30px;
@@ -33,6 +33,9 @@ a:hover{
 }
 .text-big {
     font-size: 200%;
+}
+.text-small {
+    font-size: 75%;
 }
 .bold {
     font-weight: bold;

@@ -1,5 +1,5 @@
-console.log('Loaded!');
-var url=document.URL;//http://anantajitjg.imad.hasura-app.io/
+var rootURL=window.location.protocol+"//"+window.location.host;//http://anantajitjg.imad.hasura-app.io
+console.log(rootURL);
 //comments specific
 var comment=document.getElementById("comment");
 var submit_comment=document.getElementById("submit_comment");
@@ -15,18 +15,15 @@ submit_comment.onclick=function(){
 			if(request.status===200){
 				var comments=JSON.parse(request.responseText);
 				var list="";
-				for(var i=0;i<comments.content.length;i++){
-					if(comments.content[i]!==null){
-						list+="<li><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+comments.content[i]+"<br /><span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comments.date[i]+"</li>";
-					}
+				for(var i=comments.content.length-1;i>=0;i--){
+					list+="<li><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+comments.content[i]+"<div class='text-small'><span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comments.date[i]+"</div></li>";
 				}
 				comment_list.innerHTML=list;
 			}
 		}  
 		};
-		
-		request.open("GET",url+"/submit?comment="+comment_value,true);
-		request.send();
+		request.open("GET",rootURL+"/submit?comment="+comment_value,true);
+		request.send(null);
 	}else{
 		comment.focus();
 		comment.style.outline="1px solid #d57171";
