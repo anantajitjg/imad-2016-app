@@ -1,7 +1,7 @@
 body {
     font-family: 'Open Sans', Verdana, sans-serif;
     background-color: lightgrey;
-    background:url('/ui/img/bg.png') no-repeat;
+    background:url('img/bg.png') no-repeat;
 	background-size:cover;
     margin-top: 30px;
 }
