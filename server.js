@@ -70,7 +70,7 @@ app.get('/', function (req, res) {
 app.get('/favicon.ico', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui/', 'favicon.ico'));
 });
-app.get('/ui/style.css', function (req, res) {
+/*app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
 app.get('/ui/main.js', function (req, res) {
@@ -78,7 +78,10 @@ app.get('/ui/main.js', function (req, res) {
 });
 app.get('/ui/home.js', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'home.js'));
-});
+});*/
+app.use('/ui', express.static(__dirname + '/ui/'));
+app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
+app.use('/img', express.static(__dirname + '/ui/img/'));
 
 function timeValidate(unit){
 	if(unit<10){
@@ -101,9 +104,6 @@ app.get('/submit',function(req,res){
 	comments.date.push(date);
     res.send(JSON.stringify(comments));
 });
-
-app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-app.use('/img', express.static(__dirname + '/ui/img/'));
 
 app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
