@@ -64,18 +64,7 @@ function createTemplate(dataObj){
 return htmlTemplate;
 }
 
-/*app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
-});
-app.get('/favicon.ico', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/', 'favicon.ico'));
-});*/
-app.use(express.static(path.join(__dirname, 'ui'),{
-  maxage: '2h'
-}));
-//app.use('/ui', express.static(__dirname + '/ui/'));
-//app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-//app.use('/img', express.static(__dirname + '/ui/img/'));
+app.use(express.static(path.join(__dirname, 'ui')));
 
 function timeValidate(unit){
 	if(unit<10){
