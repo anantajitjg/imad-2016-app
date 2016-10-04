@@ -1,4 +1,5 @@
-//console.log('Loaded!');
+console.log('Loaded!');
+var url=document.URL;
 //comments specific
 var comment=document.getElementById("comment");
 var submit_comment=document.getElementById("submit_comment");
@@ -23,7 +24,8 @@ submit_comment.onclick=function(){
 			}
 		}  
 		};
-		request.open("GET","http://anantajitjg.imad.hasura-app.io/submit?comment="+comment_value,true);
+		
+		request.open("GET",url+"/submit?comment="+comment_value,true);
 		request.send();
 	}else{
 		comment.focus();
