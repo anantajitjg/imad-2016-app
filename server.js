@@ -64,8 +64,6 @@ function createTemplate(dataObj){
 return htmlTemplate;
 }
 
-//app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
@@ -81,12 +79,7 @@ app.get('/ui/main.js', function (req, res) {
 app.get('/ui/home.js', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'home.js'));
 });
-app.get('/ui/logo.png', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/img/', 'logo.png'));
-});
-app.get('/ui/bg.png', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/img/', 'bg.png'));
-});
+
 function timeValidate(unit){
 	if(unit<10){
 		unit="0"+unit;
@@ -112,9 +105,13 @@ app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
    res.send(createTemplate(articles[articleObj]));
 });
-app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
+app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
+app.get('/ui/img/:imgName', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui/img/', req.params.imgName));
 });
+//app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
+ // res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
+//});
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
 app.listen(8080, function () {
