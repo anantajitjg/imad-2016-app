@@ -1,5 +1,5 @@
 console.log('Loaded!');
-var url=document.URL;
+var url=document.URL;//http://anantajitjg.imad.hasura-app.io/
 //comments specific
 var comment=document.getElementById("comment");
 var submit_comment=document.getElementById("submit_comment");
