@@ -36,9 +36,9 @@ function createTemplate(dataObj){
     <head>
         <title>${title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+		<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/ui/style.css" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
         <div id="wrapper">
@@ -57,23 +57,23 @@ function createTemplate(dataObj){
 				</ul>
 			</div>
         </div>
-		<script type="text/javascript" src="/ui/main.js"></script>
+		<script type="text/javascript" src="main.js"></script>
     </body>
 </html>`
 ;
 return htmlTemplate;
 }
 
-app.get('/', function (req, res) {
+/*app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 app.get('/favicon.ico', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui/', 'favicon.ico'));
-});
-
-app.use('/ui', express.static(__dirname + '/ui/'));
-app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-app.use('/img', express.static(__dirname + '/ui/img/'));
+});*/
+app.use(express.static(path.join(__dirname, 'ui')));
+//app.use('/ui', express.static(__dirname + '/ui/'));
+//app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
+//app.use('/img', express.static(__dirname + '/ui/img/'));
 
 function timeValidate(unit){
 	if(unit<10){
