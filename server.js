@@ -101,13 +101,13 @@ app.get('/submit',function(req,res){
 	comments.date.push(date);
     res.send(JSON.stringify(comments));
 });
-app.get('/:articleID',function(req,res){
-    var articleObj=req.params.articleID;
-   res.send(createTemplate(articles[articleObj]));
-});
 app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
 app.get('/img/:imgName', function (req, res) {
     res.sendFile(path.join(__dirname, 'ui/img/', req.params.imgName));
+});
+app.get('/:articleID',function(req,res){
+    var articleObj=req.params.articleID;
+   res.send(createTemplate(articles[articleObj]));
 });
 //app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
  // res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
