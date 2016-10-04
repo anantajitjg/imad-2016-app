@@ -106,10 +106,9 @@ app.get('/:articleID',function(req,res){
    res.send(createTemplate(articles[articleObj]));
 });
 app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
-app.use('/img', express.static(__dirname + '/ui/img/'));
-//app.get('/ui/img/:imgName', function (req, res) {
-//  res.sendFile(path.join(__dirname, 'ui/img/', req.params.imgName));
-//});
+app.get('/img/:imgName', function (req, res) {
+    res.sendFile(path.join(__dirname, 'ui/img/', req.params.imgName));
+});
 //app.get('/fonts/glyphicons-halflings-regular.:fontExt', function (req, res) {
  // res.sendFile(path.join(__dirname, 'ui/fonts/', 'glyphicons-halflings-regular.'+req.params.fontExt));
 //});
