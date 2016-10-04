@@ -70,7 +70,9 @@ return htmlTemplate;
 app.get('/favicon.ico', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui/', 'favicon.ico'));
 });*/
-app.use(express.static(path.join(__dirname, 'ui')));
+app.use(express.static(path.join(__dirname, 'ui'),{
+  maxage: 0
+}));
 //app.use('/ui', express.static(__dirname + '/ui/'));
 //app.use('/fonts', express.static(__dirname + '/ui/fonts/'));
 //app.use('/img', express.static(__dirname + '/ui/img/'));
