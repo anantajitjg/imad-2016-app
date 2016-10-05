@@ -66,6 +66,10 @@ return htmlTemplate;
 
 app.use(express.static(path.join(__dirname, 'ui')));
 
+app.get('/',function(req,res){
+   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
+});
+
 function timeValidate(unit){
 	if(unit<10){
 		unit="0"+unit;
