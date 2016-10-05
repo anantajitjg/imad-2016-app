@@ -14,6 +14,7 @@ submit_comment.onclick=function(){
 		if(request.readyState===XMLHttpRequest.DONE){
 			if(request.status===200){
 				var comments=JSON.parse(request.responseText);
+				console.log(comments);
 				var list="";
 				for(var i=comments.content.length-1;i>=0;i--){
 					list+="<li><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+comments.content[i]+"<div class='text-small'><span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comments.date[i]+"</div></li>";
