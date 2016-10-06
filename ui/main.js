@@ -14,7 +14,7 @@ submit_comment.onclick=function(){
 		if(request.readyState===XMLHttpRequest.DONE){
 			if(request.status===200){
 				var comments=JSON.parse(request.responseText);
-				console.log(comments);
+				//console.log(comments);
 				if(comments.content){
     				var list="";
     				for(var i=comments.content.length-1;i>=0;i--){
