@@ -33,9 +33,9 @@ document.body.onload=function(){
 			menu_btn.className="btn_primary";
 		}
 		if(active){
-			left+=-5;
+			left+=-16;
 		}else{
-			left+=5;	
+			left+=16;	
 		}
 		if(left==0||left==-160){
 			clearInterval(slt);	
