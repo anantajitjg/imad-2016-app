@@ -7,32 +7,42 @@ app.use(morgan('combined'));
 
 var articles={
     'personal':{
+		id:"2",
         title:"Personal | Anantajit",
+		date:'21/09/2016',
         heading:"Personal",
         content:`<p>Personal information.</p>`
     },
     'education':{
+		id:"3",
         title:"Education | Anantajit",
+		date:'21/09/2016',
         heading:"Education",
         content:`<p>Information about my Education</p>`
     },
     'experience':{
+		id:"4",
         title:"Experience | Anantajit",
+		date:'21/09/2016',
         heading:"Experience",
         content:`<p>My Experience</p>`
     },
     'skills':{
+		id:"5",
         title:"Skills | Anantajit",
+		date:'21/09/2016',
         heading:"Skills",
         content:`<p>My Skills</p>`
     }
 };
 
 function createTemplate(dataObj){
+	var id=dataObj.id;
     var title=dataObj.title;
+	var date=dataObj.date;
     var heading=dataObj.heading;
     var content=dataObj.content;
-    var htmlTemplate=`<html>
+    var htmlTemplate=`<!DOCTYPE html><html>
     <head>
         <title>${title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,35 +56,64 @@ function createTemplate(dataObj){
                 <a href="/" class="btn_primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
             </div>
 			<div class="clear_fix"></div>
-            <h3>${heading}</h3>
+            <h2>${heading}</h2>
+			<div class="text-small"><span class='glyphicon glyphicon-calendar' aria-hidden='true'></span> ${date}</div>
             <div>${content}</div>
 			<hr />
+			<div>
+				<button id="likeBtn" class="btn_primary btn_info" data-id="${id}"><span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size:1.5em;top:4px"></span> <span id="like_status">Like</span> | <span id="count">0</span></button>
+			</div>
 			<div>
 				<h5>Comments:</h5>
 				<textarea id="comment" rows="5" cols="50"></textarea><br />
 				<input type="submit" id="submit_comment" value="Submit Comment" class="btn_primary" />
+				<input type="hidden" value="${id}" id="article_id" />
+				<strong id="loader_comments"><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> Loading...</strong>
 				<ul id="comment_list">
 				</ul>
 			</div>
         </div>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="main.js"></script>
     </body>
 </html>`
 ;
 return htmlTemplate;
 }
-
+//loading static files
 app.use(express.static(path.join(__dirname, 'ui')));
 
+//like button specific
+var counter={id:[],likes:[]};
+app.get('/counter',function(req,res){
+	var pgId=req.query.id;
+	var inc=req.query.inc;
+	if(counter.id.indexOf(pgId)==-1){
+		for(var i=0;i<pgId;i++){
+			if(counter.id.indexOf((i+1).toString())==-1){
+				counter.id.push((i+1).toString());
+				counter.likes.push(0);
+			}
+		}
+	}
+	counter.id.sort();
+	if(inc==1){
+		counter.likes[pgId-1]=counter.likes[pgId-1]+1;
+	}
+	res.send(JSON.stringify(counter));
+});
+//comments specific
 function timeValidate(unit){
 	if(unit<10){
 		unit="0"+unit;
 	}
 	return unit;
 }
-var comments={content:[],date:[]};
+var comments={id:[],content:[],date:[]};
 app.get('/submit',function(req,res){
+	var id=req.query.id;
     var comment=req.query.comment;
+	comments.id.push(id);
     comments.content.push(comment);
 	var dateObj=new Date();
 	var hours=dateObj.getHours(),minutes=dateObj.getMinutes(),seconds=dateObj.getSeconds();
@@ -87,7 +126,7 @@ app.get('/submit',function(req,res){
 	comments.date.push(date);
     res.send(JSON.stringify(comments));
 });
-
+//articles specifc
 app.get('/:articleID',function(req,res){
     var articleObj=req.params.articleID;
    res.send(createTemplate(articles[articleObj]));

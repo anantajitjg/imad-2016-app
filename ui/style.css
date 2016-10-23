@@ -102,6 +102,15 @@ padding:10px;
     border: 1px solid #50a947;
     text-decoration: none;
 }
+.btn_info{
+	background: none;
+    border: 1px solid #337ab7;
+	font-weight:bold;
+}
+.btn_info:hover,.btn_info.active{
+	background: none;
+    border: 1px solid #286090;
+}
 /*------------adding icons--------------------*/
 @font-face {
   font-family: 'Glyphicons Halflings';
@@ -123,14 +132,26 @@ padding:10px;
 .glyphicon-home:before {
   content: "\e021";
 }
+.glyphicon-thumbs-up:before {
+  content: "\e125";
+}
+.glyphicon-calendar:before {
+  content: "\e109";
+}
 .glyphicon-comment:before {
   content: "\e111";
 }
 .glyphicon-time:before {
   content: "\e023";
 }
+.glyphicon-exclamation-sign:before {
+  content: "\e101";
+}
 .glyphicon-menu-hamburger:before {
   content: "\e236";
+}
+.glyphicon-heart:before {
+  content: "\e005";
 }
 /*--------------end of icon styles-----------*/
 .float_right{
@@ -162,6 +183,11 @@ ul.content_list li:before {
 	outline:none;
 	width:54%;
 }
+#loader_comments{
+	display:none;
+	font-size: 0.79em;
+	margin-left: 18px;
+}
 ul#comment_list {
 	width:70%;
 	list-style: none;
@@ -172,6 +198,10 @@ ul#comment_list li {
     padding: 14px 19px;
     margin: 10px 0;
 	word-wrap: break-word;
+}
+/*-------alert styling-------*/
+.alert-error{
+	color:#9b302e;
 }
 @media (max-width:480px){
 	#logo{
