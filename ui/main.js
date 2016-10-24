@@ -9,8 +9,8 @@ $(function(){
 		if(typeof incrmnt==="undefined"){
 			incrmnt=0;
 		}
-		$.getJSON(rootURL+"/counter",{id:pgId,inc:incrmnt},function(data){
-			$("#count").text(data.likes[pgId-1]);
+		$.getJSON(rootURL+"/likes",{id:pgId,inc:incrmnt},function(data){
+			$("#count").text(data.likes[pgId]);
 		});
 	}
 	likeBtn.click(function(){
