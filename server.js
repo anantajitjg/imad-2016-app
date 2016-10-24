@@ -91,35 +91,24 @@ return htmlTemplate;
 //loading static files
 app.use(express.static(path.join(__dirname, 'ui')));
 
-//testing db
-app.get('/test-db',function(req,res){
-    pool.query("SELECT * FROM test",function(err,result){
-        if(err){
-            res.status(500).send("Error: "+err.toString());
-        }else{
-            res.send(JSON.stringify(result));
-        }
-    });
-});
-
 //like button specific
-var counter={id:[],likes:[]};
-app.get('/counter',function(req,res){
+var likeObj={id:[],likes:[]};
+app.get('/likes',function(req,res){
 	var pgId=req.query.id;
 	var inc=req.query.inc;
-	if(counter.id.indexOf(pgId)==-1){
-		for(var i=0;i<pgId;i++){
-			if(counter.id.indexOf((i+1).toString())==-1){
-				counter.id.push((i+1).toString());
-				counter.likes.push(0);
+	if(likeObj.id.indexOf(pgId)==-1){
+		for(var i=0;i<=pgId;i++){
+			if(likeObj.id.indexOf(i.toString())==-1){
+				likeObj.id.push(i.toString());
+				likeObj.likes.push(0);
 			}
 		}
 	}
-	counter.id.sort();
+	likeObj.id.sort();
 	if(inc==1){
-		counter.likes[pgId-1]=counter.likes[pgId-1]+1;
+		likeObj.likes[pgId]=likeObj.likes[pgId]+1;
 	}
-	res.send(JSON.stringify(counter));
+	res.send(JSON.stringify(likeObj));
 });
 //comments specific
 function timeValidate(unit){
@@ -146,9 +135,20 @@ app.get('/submit',function(req,res){
     res.send(JSON.stringify(comments));
 });
 //articles specifc
-app.get('/:articleID',function(req,res){
-    var articleObj=req.params.articleID;
-   res.send(createTemplate(articles[articleObj]));
+app.get('/articles/:articleName',function(req,res){
+    var artName=req.params.articleName;
+    pool.query("SELECT * FROM article WHERE title=$1",[artName],function(err,result){
+       if(err){
+           res.status(500).send("Error: "+err.toString());
+       }else{
+           if(result.rows.length===0){
+               res.status(404).send("Page Not Found!");
+           }else{
+               var artData=result.rows[0];
+               res.send(createTemplate(artData));
+           }
+       }
+    });
 });
 
 var port = 8080; // Use 8080 for local development because you might already have apache running on 80
