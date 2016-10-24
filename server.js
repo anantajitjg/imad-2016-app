@@ -1,9 +1,17 @@
 var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
-
+var Pool=require('pg').Pool;
+var config={
+    user: 'anantajitjg',
+    database: 'anantajitjg',
+    host: 'db.imad.hasura-app.io',
+    port: '5432',
+    password: process.env.DB_PASSWORD
+};
 var app = express();
 app.use(morgan('combined'));
+var pool=new Pool(config);
 
 var articles={
     'personal':{
@@ -82,6 +90,17 @@ return htmlTemplate;
 }
 //loading static files
 app.use(express.static(path.join(__dirname, 'ui')));
+
+//testing db
+app.get('/test-db',function(req,res){
+    pool.query("SELECT * FROM test",function(err,result){
+        if(err){
+            res.status(500).send("Error: "+err.toString());
+        }else{
+            res.send(JSON.stringify(result));
+        }
+    });
+});
 
 //like button specific
 var counter={id:[],likes:[]};
