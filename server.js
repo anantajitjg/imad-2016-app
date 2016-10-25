@@ -3,60 +3,40 @@ var morgan = require('morgan');
 var path = require('path');
 var Pool=require('pg').Pool;
 var config={
-    user: 'anantajitjg',
-    database: 'anantajitjg',
-    host: 'db.imad.hasura-app.io',
-    port: '5432',
-    password: process.env.DB_PASSWORD
+	dev:{
+		user: 'postgres',
+		database: 'imad',
+		host: 'localhost',
+		port: '5432',
+		password: process.env.PGDB_PASSWORD
+	},
+	prod:{
+		user: 'anantajitjg',
+		database: 'anantajitjg',
+		host: 'db.imad.hasura-app.io',
+		port: '5432',
+		password: process.env.DB_PASSWORD
+	}
 };
 var app = express();
 app.use(morgan('combined'));
-var pool=new Pool(config);
+var pool=new Pool(config.dev);
 
-var articles={
-    'personal':{
-		id:"2",
-        title:"Personal | Anantajit",
-		date:'21/09/2016',
-        heading:"Personal",
-        content:`<p>Personal information.</p>`
-    },
-    'education':{
-		id:"3",
-        title:"Education | Anantajit",
-		date:'21/09/2016',
-        heading:"Education",
-        content:`<p>Information about my Education</p>`
-    },
-    'experience':{
-		id:"4",
-        title:"Experience | Anantajit",
-		date:'21/09/2016',
-        heading:"Experience",
-        content:`<p>My Experience</p>`
-    },
-    'skills':{
-		id:"5",
-        title:"Skills | Anantajit",
-		date:'21/09/2016',
-        heading:"Skills",
-        content:`<p>My Skills</p>`
-    }
-};
-
+//template
 function createTemplate(dataObj){
 	var id=dataObj.id;
     var title=dataObj.title;
 	var date=dataObj.date;
     var heading=dataObj.heading;
     var content=dataObj.content;
-    var htmlTemplate=`<!DOCTYPE html><html>
+    var htmlTemplate=`<!DOCTYPE html><html lang="en">
     <head>
+		<meta charset="utf-8">
         <title>${title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="/style.css" />
     </head>
     <body>
         <div id="wrapper">
@@ -65,7 +45,7 @@ function createTemplate(dataObj){
             </div>
 			<div class="clear_fix"></div>
             <h2>${heading}</h2>
-			<div class="text-small"><span class='glyphicon glyphicon-calendar' aria-hidden='true'></span> ${date}</div>
+			<div class="text-small"><span class='glyphicon glyphicon-calendar' aria-hidden='true'></span> ${date.toDateString()}</div>
             <div>${content}</div>
 			<hr />
 			<div>
@@ -82,12 +62,13 @@ function createTemplate(dataObj){
 			</div>
         </div>
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="/main.js"></script>
     </body>
 </html>`
 ;
 return htmlTemplate;
 }
+
 //loading static files
 app.use(express.static(path.join(__dirname, 'ui')));
 
@@ -110,6 +91,7 @@ app.get('/likes',function(req,res){
 	}
 	res.send(JSON.stringify(likeObj));
 });
+
 //comments specific
 function timeValidate(unit){
 	if(unit<10){
@@ -134,6 +116,7 @@ app.get('/submit',function(req,res){
 	comments.date.push(date);
     res.send(JSON.stringify(comments));
 });
+
 //articles specifc
 app.get('/articles/:articleName',function(req,res){
     var artName=req.params.articleName;
@@ -142,11 +125,23 @@ app.get('/articles/:articleName',function(req,res){
            res.status(500).send("Error: "+err.toString());
        }else{
            if(result.rows.length===0){
-               res.status(404).send("Page Not Found!");
+               res.status(404).sendFile(path.join(__dirname, 'ui', '404.html'));
            }else{
                var artData=result.rows[0];
                res.send(createTemplate(artData));
            }
+       }
+    });
+});
+
+//menu specific
+app.get('/menu',function(req,res){
+    pool.query("SELECT title,heading FROM article",function(err,result){
+       if(err){
+           res.status(500).send("Error: "+err.toString());
+       }else{
+		   var menu_data=result.rows;
+		   res.send(JSON.stringify(menu_data));
        }
     });
 });

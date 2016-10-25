@@ -183,6 +183,9 @@ ul.content_list li:before {
 	outline:none;
 	width:54%;
 }
+.loader{
+	padding:10px;
+}
 #loader_comments{
 	display:none;
 	font-size: 0.79em;

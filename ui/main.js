@@ -1,6 +1,19 @@
 $(function(){
 	var rootURL=window.location.protocol+"//"+window.location.host;//http://anantajitjg.imad.hasura-app.io
 	console.log(rootURL);
+	//get menu details
+	var menu=$("#menu ul");
+	getMenuDetails();
+	function getMenuDetails(){
+		$.getJSON(rootURL+"/menu",function(data){
+			$("#loader_menu").fadeOut('fast',function(){
+				for(var i=0;i<data.length;i++){
+					menu.append("<li class='menu_title' style='display:none;'><a href='"+rootURL+"/articles/"+data[i].title+"'>"+data[i].heading+"</a></li>");
+				}
+				menu.find(".menu_title").fadeIn(500);
+			});
+		});
+	}
 	//like button specific
 	var likeBtn=$("#likeBtn");
 	getLikes();
@@ -15,6 +28,7 @@ $(function(){
 	}
 	likeBtn.click(function(){
 		getLikes(1);
+		$(this).off("click").addClass("active");
 		var icon=likeBtn.find(".glyphicon");
 		icon.hide();
 		icon.css("color","#F27793").fadeIn();
