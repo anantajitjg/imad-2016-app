@@ -20,7 +20,7 @@ var config={
 };
 var app = express();
 app.use(morgan('combined'));
-var pool=new Pool(config.dev);
+var pool=new Pool(config.prod);
 
 //template
 function createTemplate(dataObj){
