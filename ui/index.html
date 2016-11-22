@@ -1,53 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-		<meta charset="utf-8">
+	<meta charset="utf-8">
         <title>Anantajit</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link href="/style.css" rel="stylesheet" />
     </head>
     <body>
+	<!--[if lte IE 8]>
+		<div style="width:100%;background:#286090;position:fixed;top:0;left:0;color:#fff;padding:20px 10px;z-index:1"><strong>Sorry! Your browser is not supported. Please upgrade to a latest, fully supported browser.</strong></div>
+	<![endif]-->
 	<div id="menu">
-		<ul>
+		<ul id="menu_nav">
 			<li><a href="#" class="current"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>	
 		</ul>
 		<div id="loader_menu" class="loader center"><img src="/img/gears.svg" /></div>
 	</div>
 	<div id="wrapper">
-		<div class="float_right"><button id="menu_btn" class="btn_primary"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Menu</button></div>
-		<div class="clear_fix"></div>
-        <div class="center">
-            <img src="/img/logo.png" class="img-medium" id="logo"/>
-        </div>
-        <hr class="small-hr" />
-        <div class="center text-big bold">
-            Anantajit
-        </div>
-		<hr class="small-hr" />
-		<ul class="content_list">
-            <li>Web development is my passion.</li>
-            <li>Love to learn new things.</li>
-            <li>PHP is my best friend :)</li>
-            <li>Finally, IMAD is great!</li>
-		</ul>
-        <hr />
-		<div>
-            <button id="likeBtn" class="btn_primary btn_info" data-id="0"><span class="glyphicon glyphicon-heart" aria-hidden="true" style="font-size:1.5em;top:4px"></span> <span id="like_status">Like</span> | <span id="count">0</span></button>
-        </div>
-        <div>
-            <h5>Comments:</h5>
-            <textarea id="comment" placeholder="your comments here..." rows="3"></textarea><br />
-            <input type="submit" id="submit_comment" value="Submit Comment" class="btn_primary" />
-			<input type="hidden" value="0" id="article_id" />
-			<strong id="loader_comments"><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> Loading...</strong>
-            <ul id="comment_list">
-            </ul>
-        </div>
+            <div class="float_right"><span id="user_area"><button id="login_btn" class="btn_primary"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</button></span>&nbsp;&nbsp;<button id="menu_btn" class="btn_primary"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Menu</button></div>
+            <div class="clear_fix"></div>
+            <div style="margin-top:39px;">
+                <div class="center">
+                    <img src="/img/logo.png" class="img-medium" id="logo"/>
+                </div>
+                <hr class="small-hr" />
+                <div class="center text-big bold" style="margin-bottom: 12px;">Anantajit JG</div>
+                <div class="clear_fix"></div>
+                <hr class="small-hr" />
+                <ul class="content_list">
+                    <li>Web development is my passion.</li>
+                    <li>Love to learn new things.</li>
+                    <li>PHP is my best friend :)</li>
+                    <li>Finally, IMAD is great!</li>
+                </ul><br />
+                <div class="center" style="margin-bottom:32px;"><a href="#" id="embtn" style="font-size:0.84em;" class="btn_primary btn_other"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Contact Me</a></div>
+            </div>
+            <hr />
+            <div class="footer">Inspired from many, but built from scratch, Anantajit &copy; 2016 &lt; <a title="Fork this on GitHub" href="https://github.com/anantajitjg/imad-2016-app" target="_blank"><img src="/img/GitHub-Mark-Light-32px.png" alt="GitHub" /></a> &gt;</div>
 	</div>
+        <div id="loginWrapper" style="display:none;">
+            <div id="login" class="loginInnerWrapper">
+                <div class="login_close"><span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span></div>
+                <div class="center text-big bold">
+                    Login
+                </div>
+                <div class="alert-info">
+                    New user? Register <span id="register_trigger" class="link">here</span>
+                </div>
+                <div id="login_message" class="user_message">&nbsp;</div>
+		<div class="flex_table">
+                    <form id="login_form" action="#" method="POST">
+			<div class="row">
+                            <div class="field">Username:</div><div class="field"><input type="text" name="un" id="login_un" placeholder="Username" required /></div>
+			</div>
+			<div class="row">
+				<div class="field">Password:</div><div class="field"><input type="password" name="pwd" id="login_pwd" placeholder="Password" required /></div>
+			</div>
+			<div class="row">
+                            <div class="field"><input type="submit" id="login_submit" value="Login" class="btn_primary" /></div>
+			</div>
+                    </form>
+		</div>
+            </div>
+            <div id="register" class="loginInnerWrapper">
+                <div class="login_close"><span class='glyphicon glyphicon-remove-sign' aria-hidden='true'></span></div>
+                <div class="center text-big bold">
+                    Register
+                </div>
+                <div class="alert-info">
+                    Login <span id="login_trigger" class="link">here</span>
+                </div>
+                <div id="register_message" class="user_message">&nbsp;</div>
+		<div class="flex_table">
+                    <form id="register_form" action="#" method="POST">
+			<div class="row">
+                            <div class="field">Username:</div><div class="field"><input type="text" name="un" id="register_un" placeholder="Username" required /></div>
+			</div>
+			<div class="row">
+                            <div class="field">Password:</div><div class="field"><input type="password" name="pwd" id="register_pwd" placeholder="Password" required/></div>
+			</div>
+                        <div class="row">
+                            <div class="field">Email:</div><div class="field"><input type="email" name="email" id="register_email" placeholder="Email" required /></div>
+			</div>
+			<div class="row">
+                            <div class="field"><input type="submit" id="register_submit" value="Register" class="btn_primary" /></div>
+			</div>
+                    </form>
+		</div>
+            </div>
+        </div>
+                <!--<script type="text/javascript" src="/js/lib/jquery.min.js"></script>-->
 		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script type="text/javascript" src="/main.js"></script>
-		<script type="text/javascript" src="/home.js"></script>
+                <script type="text/javascript" src="/main.js"></script>
+		<script type="text/javascript" src="/js/user.js"></script>
+		<script type="text/javascript" src="/js/home.js"></script>
     </body>
 </html>

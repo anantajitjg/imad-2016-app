@@ -1,6 +1,6 @@
 {
   "name": "imad-2016-base",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "IMAD 2016 course app",
   "main": "server.js",
   "scripts": {
@@ -9,7 +9,9 @@
   "author": "Anantajit",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "morgan": "^1.7.0",
     "pg": "^6.1.0"
   }

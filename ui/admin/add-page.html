@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin - Add Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="/style.css" rel="stylesheet" />
+        <link href="/css/admin.css" rel="stylesheet" />
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <!--<script type="text/javascript" src="/js/lib/tinymce/tinymce.min.js"></script>-->
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                height: 500,
+                contextmenu: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code'
+                ],
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                browser_spellcheck : true
+            });
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div class="float_right"><span id="user_area"></span>&nbsp;&nbsp;<button id="home_trigger" class="btn_primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</button></div>
+            <div class="clear_fix"></div><br />
+            <div class="center text-big bold">
+                Add New Article
+            </div>
+            <hr class="small-hr" />
+            <div>
+                <form id="add_page_form" action="#" method="POST">
+                    <div class="row">
+                        <label>Title:</label><input type="text" size="32" id="page_title" placeholder="Article Title" required />
+                    </div><hr class="field-hr" />
+                    <div class="row">
+                        <label>Type:</label>
+                        <input type="radio" name="type" value="main" required /> Main
+                        <input type="radio" name="type" value="blog" required /> Blog
+                    </div><hr class="field-hr" />
+                    <div class="row">
+                        <label>Article:</label>
+                        <textarea></textarea>
+                    </div>
+                    <div class="row">
+                        <input type="submit" id="add_page_submit" value="Add Article" class="btn_primary" />
+                    </div>
+                </form>
+                <div class="user_message"></div>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/main.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+    </body>
+</html>

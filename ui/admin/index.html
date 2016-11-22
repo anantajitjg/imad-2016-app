@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+        <title>Admin</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="/style.css" rel="stylesheet" />
+		<link href="/css/admin.css" rel="stylesheet" />
+    </head>
+    <body>
+	<div id="menu">
+		<ul>
+                    <li><a href="/" class="current" target="_blank"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Homepage</a></li>
+                    <li><a href="/admin/add-page"><span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Add Page</a></li>
+                    <li><a href="/admin/update-page"><span class='glyphicon glyphicon-edit' aria-hidden='true'></span> Edit Page</a></li>
+		</ul>
+		<!--<div id="loader_menu" class="loader center"><img src="/img/gears.svg" /></div>-->
+	</div>
+	<div id="wrapper">
+		<div class="float_right"><span id="user_area"></span>&nbsp;&nbsp;<button id="menu_btn" class="btn_primary"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> Menu</button></div>
+		<div class="clear_fix"></div>
+        <hr class="small-hr" />
+        <div class="center text-big bold">
+            Admin Dashboard
+        </div>
+		<hr class="small-hr" />
+		<div class="admin_view">
+			<ul class="admin_list">
+				<li><a href="/admin/add-page">Add New Article</a></li>
+                                <li><a href="/admin/update-page">Edit Article</a></li>
+			</ul>
+		</div>
+		<hr class="small-hr" />
+	</div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/main.js"></script>
+	<script type="text/javascript" src="/js/home.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin - Edit Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="/style.css" rel="stylesheet" />
+        <link href="/css/admin.css" rel="stylesheet" />
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <!--<script type="text/javascript" src="/js/lib/tinymce/tinymce.min.js"></script>-->
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                height: 500,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code'
+                ],
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                browser_spellcheck : true
+            });
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div class="float_right"><span id="user_area"></span>&nbsp;&nbsp;<button id="home_trigger" class="btn_primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</button></div>
+            <div class="clear_fix"></div><br />
+            <div class="center text-big bold">
+                Edit Article
+            </div>
+            <hr class="small-hr" />
+            <div>
+                <form id="edit_page_form" action="#" method="POST">
+                    <div class="row">
+                        <label>Choose Title:</label>
+                        <select id="edit_page_title" required>
+                            <option value=''>--choose--</option>
+                        </select>
+                    </div>
+                    <hr class="field-hr" />
+                    <div class="row">
+                        <label>Article:</label>
+                        <textarea id="edit_page_content"></textarea>
+                    </div>
+                    <input type="hidden" value="" id="edit_page_id" />
+                    <div class="row">
+                        <input type="submit" id="edit_page_submit" value="Update" class="btn_primary" />
+                    </div>
+                </form>
+                <div class="user_message"></div>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="/main.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+    </body>
+</html>

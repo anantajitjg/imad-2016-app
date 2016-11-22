@@ -1,71 +1,12 @@
-$(function(){
-	var rootURL=window.location.protocol+"//"+window.location.host;//http://anantajitjg.imad.hasura-app.io
-	console.log(rootURL);
-	//get menu details
-	var menu=$("#menu ul");
-	getMenuDetails();
-	function getMenuDetails(){
-		$.getJSON(rootURL+"/menu",function(data){
-			$("#loader_menu").fadeOut('fast',function(){
-				for(var i=0;i<data.length;i++){
-					menu.append("<li class='menu_title' style='display:none;'><a href='"+rootURL+"/articles/"+data[i].title+"'>"+data[i].heading+"</a></li>");
-				}
-				menu.find(".menu_title").fadeIn(500);
-			});
-		});
-	}
-	//like button specific
-	var likeBtn=$("#likeBtn");
-	getLikes();
-	function getLikes(incrmnt){
-		var pgId=likeBtn.data("id");
-		if(typeof incrmnt==="undefined"){
-			incrmnt=0;
-		}
-		$.getJSON(rootURL+"/likes",{id:pgId,inc:incrmnt},function(data){
-			$("#count").text(data.likes[pgId]);
-		});
-	}
-	likeBtn.click(function(){
-		getLikes(1);
-		$(this).off("click").addClass("active");
-		var icon=likeBtn.find(".glyphicon");
-		icon.hide();
-		icon.css("color","#F27793").fadeIn();
-	});
-	//comments specific
-	var comment=$("#comment");
-	var submit_comment=$("#submit_comment");
-	var comment_list=$("#comment_list");
-	var comments_loader=$("#loader_comments");
-	submit_comment.click(function(){
-		var comment_value=comment.val();
-		if(comment_value.length>0){
-			var article_id=$("#article_id").val();
-			comment.css("outline","none");
-			comments_loader.show();
-			$.getJSON(rootURL+"/submit",{id:article_id,comment:comment_value}).done(function(comments){
-				if(comments.content){
-					comments_loader.fadeOut("slow");
-					var list="";
-					for(var i=comments.content.length-1;i>=0;i--){
-						if(comments.id[i]==article_id){
-							list+="<li><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+escapeHtml(comments.content[i])+"<div class='text-small'><span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+escapeHtml(comments.date[i])+"</div></li>";
-						}
-					}
-					comment_list.html(list);
-				}
-			}).fail(function(){
-				comments_loader.fadeOut("slow");
-				comment_list.html("<li><div class='alert-error'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span> Error loading comments!<div></li>");
-			});
-		}else{
-			comment.focus();
-			comment.css("outline","1px solid #9b302e");
-		}
-	});
-});
-
+var rootURL=window.location.protocol+"//"+window.location.host;//http://anantajitjg.imad.hasura-app.io
+console.log(rootURL);
+//display logged in username
+function displayUser(username){
+    var user_area=$("#user_area");
+    if(user_area){
+        user_area.html("<strong><span class='glyphicon glyphicon-user' aria-hidden='true'></span> "+escapeHtml(username)+"</strong>&nbsp;&nbsp;<button id='logout_btn' onclick=\"window.location='/logout';\" class='btn_primary'><span class='glyphicon glyphicon-log-out' aria-hidden='true'></span> Logout</button>");
+    }
+}
 //functions for managing cookies
 function setCookie(n, v, t) {
     var d = new Date();
@@ -103,3 +44,17 @@ function escapeHtml(string) {
       return entityMap[s];
     });
 }
+$(function(){
+  //serialize object
+    $.fn.serializeObject = function(){
+        var obj = {};
+        $.each( this.serializeArray(), function(i,o){
+          var n = o.name,
+            v = o.value;
+            obj[n] = obj[n] === undefined ? v
+              : $.isArray( obj[n] ) ? obj[n].concat( v )
+              : [ obj[n], v ];
+        });
+        return obj;
+    };  
+});
