@@ -175,7 +175,7 @@ $(function(){
             var lgn_message=$("#login_message");
             lgn_form.submit(function(e){
                 e.preventDefault();
-                lgn_submit.val("Wait..");
+                lgn_submit.val("Wait.");
                 var data=JSON.stringify($(this).serializeObject());
                 $.ajax({
                    method: "POST",
@@ -204,7 +204,7 @@ $(function(){
             var reg_message=$("#register_message");
             reg_form.submit(function(e){
                 e.preventDefault();
-                reg_submit.val("Wait...");
+                reg_submit.val("Wait....");
                 var data=JSON.stringify($(this).serializeObject());
                 $.ajax({
                    method: "POST",
