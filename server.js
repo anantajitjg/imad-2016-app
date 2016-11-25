@@ -46,37 +46,45 @@ function get_auth_status(req){
 app.post("/login",function(req,res){
    var username=req.body.un;
    var password=req.body.pwd;
-   pool.query("SELECT * FROM users WHERE username=$1",[username],function(err,result){
-       if(err){
-           res.status(500).send(err.toString());
-       }else{
-           if(result.rows.length===0){
-               res.status(403).send("Username/Password is invalid!");
-           }else{
-               var db_pass=result.rows[0].password;
-               if(pwd_verify(password,db_pass)){
-                   req.session.userAuth={id:result.rows[0].id,role:result.rows[0].role};
-                   res.send(result.rows[0].role);
-               }else{
-                   res.status(403).send("Username/Password is invalid!");
-               }
-           }
-       }
-   });
+   if(username.trim()===""||password.trim()===""){
+       res.status(400).send("Invalid input values!");
+   }else{
+    pool.query("SELECT * FROM users WHERE username=$1",[username],function(err,result){
+        if(err){
+            res.status(500).send(err.toString());
+        }else{
+            if(result.rows.length===0){
+                res.status(403).send("Username/Password is invalid!");
+            }else{
+                var db_pass=result.rows[0].password;
+                if(pwd_verify(password,db_pass)){
+                    req.session.userAuth={id:result.rows[0].id,role:result.rows[0].role};
+                    res.send(result.rows[0].role);
+                }else{
+                    res.status(403).send("Username/Password is invalid!");
+                }
+            }
+        }
+    });
+   }
 });
 app.post("/register",function(req,res){
    var username=req.body.un;
    var password=req.body.pwd;
    var email=req.body.email;
-   var salt = crypto.randomBytes(128).toString('hex');
-   var hashed_pwd= pwd_hash(password,salt);
-   pool.query("INSERT INTO users(username,password,email) VALUES($1,$2,$3)",[username,hashed_pwd,email],function(err,result){
-       if(err){
-           res.status(500).send(err.toString());
-       }else{
-           res.send("Successfully Registered!");
-       }
-   });
+   if(username.trim()===""||password.trim()===""||email.trim()==""){
+       res.status(400).send("Invalid input values!");
+   }else{
+    var salt = crypto.randomBytes(128).toString('hex');
+    var hashed_pwd= pwd_hash(password,salt);
+    pool.query("INSERT INTO users(username,password,email) VALUES($1,$2,$3)",[username,hashed_pwd,email],function(err,result){
+        if(err){
+            res.status(500).send(err.toString());
+        }else{
+            res.send("Successfully Registered!");
+        }
+    });
+   }
 });
 app.get("/get-auth",function(req,res){
     if(get_auth_status(req)!==""){
@@ -175,24 +183,28 @@ app.post('/submit-comment/:articleName',function(req,res){
         var articleName=req.params.articleName;
         var comment=req.body.comment;
         var userId=req.session.userAuth.id;
-        pool.query("SELECT * FROM article WHERE article_name=$1",[articleName],function(err,result){
-            if(err){
-                res.status(500).send(err.toString());
-            }else{
-                if(result.rows.length===0){
-                    res.status(404).send("No article found!");
+        if(comment.trim()===""){
+            res.status(400).send("Not a valid comment!");
+        }else{
+            pool.query("SELECT * FROM article WHERE article_name=$1",[articleName],function(err,result){
+                if(err){
+                    res.status(500).send(err.toString());
                 }else{
-                    var articleId=result.rows[0].id;
-                    pool.query("INSERT INTO comments(article_id, user_id, comment) VALUES($1, $2, $3)",[articleId,userId,comment],function(err,result){
-                        if(err){
-                            res.status(500).send(err.toString());
-                        }else{
-                            res.status(200).send("Comment successfully inserted!");
-                        }
-                    });
+                    if(result.rows.length===0){
+                        res.status(404).send("No article found!");
+                    }else{
+                        var articleId=result.rows[0].id;
+                        pool.query("INSERT INTO comments(article_id, user_id, comment) VALUES($1, $2, $3)",[articleId,userId,comment],function(err,result){
+                            if(err){
+                                res.status(500).send(err.toString());
+                            }else{
+                                res.status(200).send("Comment successfully inserted!");
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }else{
         res.status(403).send("Please login to comment!");
     }

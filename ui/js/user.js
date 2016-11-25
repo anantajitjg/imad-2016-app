@@ -140,7 +140,10 @@ $(function(){
             reg_trigger.click(function(){
                 $("#login").fadeOut(function(){
                     $("#register").fadeIn();
-                    $("#register_submit").val("Register");
+                    var reg_submit=$("#register_submit");
+                    reg_submit.prop("disabled",false);
+                    reg_submit.css("cursor","pointer");
+                    reg_submit.val("Register");
                     $("#register_un").focus();
                     $("#register_message").css("visibility","hidden");
                     $("#login_form")[0].reset();
@@ -187,7 +190,11 @@ $(function(){
                     }
                 }).fail(function(xhr){
                     lgn_submit.val("Login");
-                    lgn_message.css("visibility","visible").html("<div class='alert-error'>"+xhr.responseText+"</div>");
+                    if(xhr.status===400){
+                        lgn_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
+                    }else{
+                        lgn_message.css("visibility","visible").html("<div class='alert-error'>"+xhr.responseText+"</div>");
+                    }
                 });
             });
         }
@@ -206,10 +213,16 @@ $(function(){
                    contentType: "application/json"
                 }).done(function(res){
                     reg_submit.val("Registered!");
+                    reg_submit.prop("disabled",true);
+                    reg_submit.css("cursor","not-allowed");
                     reg_message.css("visibility","visible").html("<div class='alert-success'>"+res+"</div>");
                 }).fail(function(xhr){
                     reg_submit.val("Register");
-                    reg_message.css("visibility","visible").html("<div class='alert-error'>Fail to register the user!</div>");
+                    if(xhr.status===400){
+                        reg_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
+                    }else{
+                        reg_message.css("visibility","visible").html("<div class='alert-error'>Username or Email already exist! Fail to register the user!</div>");
+                    }
                 });
             });
         }
@@ -225,7 +238,9 @@ $(function(){
                         var article_link=rootURL+"/articles/"+data[i].article_name;
                         list+="<div class='blog_post_wrapper'><div class='blog_headings'><a href='"+article_link+"'>"+data[i].title+"</a></div><div class='post_date'>"+post_date.toDateString()+"</div><div class='blog_posts'>"+article+"........<a href='"+article_link+"'>more&gt;&gt;</a></div></div>";
                     }
-                    blog_content.html(list);
+                    $(".blogLoader").fadeOut(function(){
+                        blog_content.html(list);
+                    });
                 }
             }).fail(function(){
                     blog_content.html("<li><div class='alert-error'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span> Fail to load blog posts!<div></li>");
