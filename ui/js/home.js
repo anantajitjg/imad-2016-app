@@ -22,9 +22,10 @@ $(function () {
         });
     }
     //menu specific
-    //console.log($(window).width());
+    //alert($(window).width());
     var menu_btn = $("#menu_btn");
     var menu = $("#menu");
+    var menu_left = -(menu.outerWidth());
     var menu_state = getCookie("menu_status");
     if (menu_state == "active") {
         menu.css("left", "0");
@@ -34,19 +35,19 @@ $(function () {
             menu.css("left", "0");
             menu_btn.addClass("active");
         } else {
-            menu.css("left", "-160px");
+            menu.css("left", menu_left + "px");
             menu_btn.removeClass("active");
         }
     }
     menu_btn.click(function () {
         if (menu_btn.hasClass("active")) {
             setCookie("menu_status", "off", 30);
-            menu.animate({left: "-160"}, 500);
+            menu.stop(true,false).animate({left: menu_left}, 500);
             menu_btn.removeClass("active");
         } else {
             setCookie("menu_status", "active", 30);
             menu_btn.addClass("active");
-            menu.animate({left: "0"}, 500);
+            menu.stop(true,false).animate({left: "0"}, 500);
         }
     });
     //personal

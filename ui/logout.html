@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Logged Out!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<link href="/style.css" rel="stylesheet" />
-	<style>
-		@media (max-width: 640px) {
-            h1 {
-                font-size: 1.5em;
-                margin: 0 0 0.3em;
+    <head>
+        <meta charset="utf-8">
+        <title>Logged Out!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="/style.css" rel="stylesheet" />
+        <style>
+            @media (max-width: 640px) {
+                h1 {
+                    font-size: 1.5em;
+                    margin: 0 0 0.3em;
+                }
             }
-        }
-		@media (max-width: 480px) {
-            h1 {
-                font-size: 1em;
-                margin: 0 0 0.3em;
+            @media (max-width: 480px) {
+                h1 {
+                    font-size: 1em;
+                    margin: 0 0 0.3em;
+                }
             }
-        }
-	</style>
-</head>
-<body>
-	<div id="wrapper">
-		<div class="float_right"><button onclick="window.location='/';" class="btn_primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</button></div>
-		<div class="clear_fix"></div>
-		<div class="center">
-                    <h1 style="border:1px solid #337ab7;width:37%;margin: 50px auto;border-radius: 5px;padding: 7px;">Logged Out!</h1>
-			<p>You have been successfully logged out of the system!</p>
-		</div>
-	</div>
-    <script type="text/javascript">
-        setTimeout(function(){
-            window.location="/";
-        },3200);
-    </script>
-</body>
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div class="float_right"><button onclick="window.location = '/';" class="btn_primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</button></div>
+            <div class="clear_fix"></div>
+            <div class="center">
+                <h1 style="border:1px solid #337ab7;width:37%;margin: 50px auto;border-radius: 5px;padding: 7px;">Logged Out!</h1>
+                <p>You have been successfully logged out of the system!</p>
+                <p><strong>Redirecting to home page in <span id="redirect_counter">10</span>seconds</strong></p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            document.body.onload = function () {
+                var redirect_counter = document.getElementById("redirect_counter");
+                var counter = parseInt(redirect_counter.innerHTML);
+                setInterval(function () {
+                    if (counter > 0) {
+                        counter = counter - 1;
+                        redirect_counter.innerHTML = counter;
+                    } else {
+                        window.location = "/";
+                    }
+                }, 1000);
+            };
+        </script>
+    </body>
 </html>

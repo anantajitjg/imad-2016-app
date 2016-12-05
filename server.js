@@ -43,10 +43,17 @@ function get_auth_status(req){
     }
     return status;
 }
+function get_random_number(min,max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+app.get("/login-template",function(req,res){
+    res.send(articleTemplate.loginTemplate());
+});
 app.post("/login",function(req,res){
    var username=req.body.un;
    var password=req.body.pwd;
-   if(username.trim()===""||password.trim()===""){
+   var un_pattern=/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
+   if(username.trim()===""||password.trim()===""||!un_pattern.test(username)||username.length>25){
        res.status(400).send("Invalid input values!");
    }else{
     pool.query("SELECT * FROM users WHERE username=$1",[username],function(err,result){
@@ -72,12 +79,18 @@ app.post("/register",function(req,res){
    var username=req.body.un;
    var password=req.body.pwd;
    var email=req.body.email;
-   if(username.trim()===""||password.trim()===""||email.trim()==""){
+   var un_pattern=/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
+   if(username.trim()===""||password.trim()===""||email.trim()==""||!un_pattern.test(username)||username.length>25){
        res.status(400).send("Invalid input values!");
    }else{
     var salt = crypto.randomBytes(128).toString('hex');
     var hashed_pwd= pwd_hash(password,salt);
-    pool.query("INSERT INTO users(username,password,email) VALUES($1,$2,$3)",[username,hashed_pwd,email],function(err,result){
+    var user_logo="user_logo.png";
+    var user_first_char=username.charAt(0);
+    if(/[a-zA-Z0-9]/.test(user_first_char)){
+        user_logo=user_first_char+"_"+get_random_number(1,3)+".png";
+    }
+    pool.query("INSERT INTO users(username,password,email,user_logo) VALUES($1,$2,$3,$4)",[username,hashed_pwd,email,user_logo],function(err,result){
         if(err){
             res.status(500).send(err.toString());
         }else{
@@ -86,13 +99,13 @@ app.post("/register",function(req,res){
     });
    }
 });
-app.get("/get-auth",function(req,res){
+app.get("/get-user-details",function(req,res){
     if(get_auth_status(req)!==""){
-        pool.query("SELECT username FROM users WHERE id=$1",[req.session.userAuth.id],function(err,result){
+        pool.query("SELECT username,user_logo FROM users WHERE id=$1",[req.session.userAuth.id],function(err,result){
             if(err){
                 res.status(500).send(err.toString());
             }else{
-                res.send(result.rows[0].username);
+                res.status(200).send(JSON.stringify(result.rows[0]));
             }
         });
     }else{
@@ -143,7 +156,7 @@ app.get('/like-article/:articleName',function(req,res){
         });
     }else{
         res.status(403).send("Please login to like article!");
-    }  
+    }
 });
 app.get('/get-likes/:articleName',function(req,res){
     var likes={count:0,status:""};
@@ -211,7 +224,7 @@ app.post('/submit-comment/:articleName',function(req,res){
 });
 app.get("/get-comment/:articleName",function(req,res){
     var articleName=req.params.articleName;
-    pool.query("SELECT comments.comment,comments.comment_date,users.username FROM article,comments,users WHERE article.article_name=$1 AND article.id=comments.article_id AND comments.user_id=users.id ORDER BY comments.comment_date DESC",[articleName],function(err,result){
+    pool.query("SELECT comments.comment,comments.comment_date,users.username,users.user_logo FROM article,comments,users WHERE article.article_name=$1 AND article.id=comments.article_id AND comments.user_id=users.id ORDER BY comments.comment_date DESC",[articleName],function(err,result){
         if(err){
             res.status(500).send(err.toString());
         }else{
@@ -221,7 +234,7 @@ app.get("/get-comment/:articleName",function(req,res){
 });
 //articles specifc
 app.get("/blog",function(req,res){
-   res.sendFile(path.join(__dirname, "ui/", "blog.html")); 
+   res.sendFile(path.join(__dirname, "ui/", "blog.html"));
 });
 app.post('/add-page',function(req,res){
     if(get_auth_status(req)==="admin"){

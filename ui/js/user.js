@@ -45,7 +45,11 @@ function displayComments(){
             var list="";
             for(var i=0;i<data.length;i++){
                 var comment_date=new Date(data[i].comment_date);
-                list+="<li><div class='comment_message'><span class='glyphicon glyphicon-comment' aria-hidden='true'></span> "+escapeHtml(data[i].comment)+"</div><div class='comment_detail'><span class='glyphicon glyphicon-user' aria-hidden='true'></span> "+escapeHtml(data[i].username)+"&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon-calendar' aria-hidden='true'></span> "+comment_date.toDateString()+"&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comment_date.toLocaleTimeString()+"</div></li>";
+                var escaped_comment=escapeHtml(data[i].comment);
+                if(escaped_comment.indexOf(":")!==-1){
+                    escaped_comment=createEmoji(escaped_comment);
+                }
+                list+="<li><div class='user_picture float_left'><img src='/img/user_logo/"+data[i].user_logo+"' alt='user_logo' /></div><div class='comment_body float_left'><div class='comment_user'>"+escapeHtml(data[i].username)+"</div><div class='comment_message'>"+escaped_comment+"</div><div class='comment_detail'><span class='glyphicon glyphicon-calendar' aria-hidden='true'></span> "+comment_date.toDateString()+"&nbsp;&nbsp;&nbsp;<span class='glyphicon glyphicon-time' aria-hidden='true'></span> "+comment_date.toLocaleTimeString()+"</div></div><div class='clear_fix'></div></li>";
             }
             comment_list.html(list);
         }
@@ -65,7 +69,8 @@ function displayCommentsForm(){
     var submit_comment=$("#submit_comment");
     submit_comment.click(function(){
             var comment_value=comment.val();
-            if(comment_value.length>0){
+            if(comment_value.trim().length>0){
+                $("#loader_comments").show();
                 var data=JSON.stringify({comment: comment_value});
                 comment.css("outline","none");
                 $.ajax({
@@ -87,8 +92,8 @@ function displayCommentsForm(){
 }
 //get authenticated user details
 function getAuthUserDetails(){
-    $.get(rootURL+"/get-auth").done(function(res){
-        displayUser(res);
+    $.getJSON(rootURL+"/get-user-details").done(function(data){
+        displayUser(data);
         var commentWrapper=$("#commentWrapper");
         if(commentWrapper){
             $("#visiter_message").remove();
@@ -117,115 +122,145 @@ $(function(){
             });
         }
         //login specific
-        var loginbtn=$("#login_btn");
-        if(loginbtn){
-            loginbtn.click(function(){
-                $("#login").css("display","block");
-                $("#register").css("display","none");
-                $("#loginWrapper").fadeIn(function(){
-                    $("#login_un").focus();
-                });
-            });
-        }
-        var loginWrapper=$("#loginWrapper");
-        if(loginWrapper){
-            loginWrapper.click(function(e){
-                if(e.target.id=="loginWrapper"){
-                    $(this).hide();
-                }
-            });
-        }
-        var reg_trigger=$("#register_trigger");
-        if(reg_trigger){
-            reg_trigger.click(function(){
-                $("#login").fadeOut(function(){
-                    $("#register").fadeIn();
-                    var reg_submit=$("#register_submit");
-                    reg_submit.prop("disabled",false);
-                    reg_submit.css("cursor","pointer");
-                    reg_submit.val("Register");
-                    $("#register_un").focus();
-                    $("#register_message").css("visibility","hidden");
-                    $("#login_form")[0].reset();
-                });
-            });
-        }
-        var lgn_trigger=$("#login_trigger");
-        if(lgn_trigger){
-            lgn_trigger.click(function(){
-                $("#register").fadeOut(function(){
-                    $("#login").fadeIn();
-                    $("#login_un").focus();
+        $("#loginWrapper").load("/login-template",function(){
+            var loginbtn=$("#login_btn");
+            if(loginbtn){
+                loginbtn.click(function(){
+                    $("#login").css("display","block");
                     $("#login_message").css("visibility","hidden");
+                    $("#register").css("display","none");
+                    $("#login_form")[0].reset();
                     $("#register_form")[0].reset();
+                    $("#loginWrapper").fadeIn(function(){
+                        $("#login_un").focus();
+                    });
                 });
-            });
-        }
-        var login_close=$(".login_close");
-        if(login_close){
-            login_close.click(function(){
-                $("#loginWrapper").hide();
-                $("#login_form")[0].reset();
-                $("#register_form")[0].reset();
-            });
-        }
-        var lgn_form=$("#login_form");
-        if(lgn_form){
-            var lgn_submit=$("#login_submit");
-            var lgn_message=$("#login_message");
-            lgn_form.submit(function(e){
-                e.preventDefault();
-                lgn_submit.val("Wait.");
-                var data=JSON.stringify($(this).serializeObject());
-                $.ajax({
-                   method: "POST",
-                   url: rootURL+"/login",
-                   data: data,
-                   contentType: "application/json"
-                }).done(function(res){
-                    if(res==="admin"){
-                        window.location="/admin";
-                    }else{
-                        window.location.reload();
-                    }
-                }).fail(function(xhr){
-                    lgn_submit.val("Login");
-                    if(xhr.status===400){
-                        lgn_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
-                    }else{
-                        lgn_message.css("visibility","visible").html("<div class='alert-error'>"+xhr.responseText+"</div>");
+            }
+            var loginWrapper=$("#loginWrapper");
+            if(loginWrapper){
+                loginWrapper.click(function(e){
+                    if(e.target.id=="loginWrapper"){
+                        $(this).hide();
                     }
                 });
-            });
-        }
-        var reg_form=$("#register_form");
-        if(reg_form){
-            var reg_submit=$("#register_submit");
-            var reg_message=$("#register_message");
-            reg_form.submit(function(e){
-                e.preventDefault();
-                reg_submit.val("Wait.....");
-                var data=JSON.stringify($(this).serializeObject());
-                $.ajax({
-                   method: "POST",
-                   url: rootURL+"/register",
-                   data: data,
-                   contentType: "application/json"
-                }).done(function(res){
-                    reg_submit.val("Registered!");
-                    reg_submit.prop("disabled",true);
-                    reg_submit.css("cursor","not-allowed");
-                    reg_message.css("visibility","visible").html("<div class='alert-success'>"+res+"</div>");
-                }).fail(function(xhr){
-                    reg_submit.val("Register");
-                    if(xhr.status===400){
-                        reg_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
-                    }else{
-                        reg_message.css("visibility","visible").html("<div class='alert-error'>Username or Email already exist! Fail to register the user!</div>");
+                loginWrapper.keyup(function(e) {
+                    if (e.keyCode === 27){
+                        $(this).hide();
                     }
                 });
-            });
-        }
+                var login_close=$(".login_close");
+                if(login_close){
+                    login_close.click(function(){
+                        loginWrapper.hide();
+                    });
+                }
+            }
+            var reg_trigger=$("#register_trigger");
+            if(reg_trigger){
+                reg_trigger.click(function(){
+                    $("#login").fadeOut(function(){
+                        $("#register").fadeIn();
+                        var reg_submit=$("#register_submit");
+                        reg_submit.prop("disabled",false);
+                        reg_submit.css("cursor","pointer");
+                        reg_submit.val("Register");
+                        $("#register_un").focus();
+                        $("#register_message").css("visibility","hidden");
+                        $("#login_form")[0].reset();
+                    });
+                });
+            }
+            var lgn_trigger=$("#login_trigger");
+            if(lgn_trigger){
+                lgn_trigger.click(function(){
+                    $("#register").fadeOut(function(){
+                        $("#login").fadeIn();
+                        $("#login_un").focus();
+                        $("#login_message").css("visibility","hidden");
+                        $("#register_form")[0].reset();
+                    });
+                });
+            }
+            var lgn_form=$("#login_form");
+            if(lgn_form){
+                var lgn_submit=$("#login_submit");
+                var lgn_message=$("#login_message");
+                lgn_form.submit(function(e){
+                    e.preventDefault();
+                    lgn_submit.val("Please Wait...");
+                    lgn_submit.css("cursor","wait");
+                    var data=JSON.stringify($(this).serializeObject());
+                    $.ajax({
+                       method: "POST",
+                       url: rootURL+"/login",
+                       data: data,
+                       contentType: "application/json"
+                    }).done(function(res){
+                        if(res==="admin"){
+                            window.location="/admin";
+                        }else{
+                            window.location.reload();
+                        }
+                    }).fail(function(xhr){
+                        lgn_submit.val("Login");
+                        lgn_submit.css("cursor","pointer");
+                        if(xhr.status===400){
+                            lgn_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
+                        }else{
+                            lgn_message.css("visibility","visible").html("<div class='alert-error'>"+xhr.responseText+"</div>");
+                        }
+                    });
+                });
+            }
+            var reg_form=$("#register_form");
+            if(reg_form){
+                var reg_submit=$("#register_submit");
+                var reg_message=$("#register_message");
+                $("#register_un").keyup(function(){
+                    var register_un_val=$(this).val();
+                    if(register_un_val.length>=25){
+                        reg_message.css("visibility","visible").html("<div class='alert-note'>Note: Maximum of 25 characters allowed!</div>");
+                    }
+                });
+                $("#register_un").change(function(){
+                    var register_un_val=$(this).val();
+                    var un_pattern=/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
+                    if(!un_pattern.test(register_un_val)){
+                        reg_message.css("visibility","visible").html("<div class='alert-error'>Only alphanumeric characters or single hyphens (not at the beginning or end) are allowed as username!</div>");
+                    }else{
+                         if(register_un_val.length<=25){
+                             reg_message.html("&nbsp;");
+                             reg_message.css("visibility","hidden");
+                        }
+                    }
+                });
+                reg_form.submit(function(e){
+                    e.preventDefault();
+                    reg_submit.val("Please Wait...");
+                    reg_submit.css("cursor","wait");
+                    var data=JSON.stringify($(this).serializeObject());
+                    $.ajax({
+                       method: "POST",
+                       url: rootURL+"/register",
+                       data: data,
+                       contentType: "application/json"
+                    }).done(function(res){
+                        reg_submit.val("Registered!");
+                        reg_submit.prop("disabled",true);
+                        reg_submit.css("cursor","not-allowed");
+                        reg_message.css("visibility","visible").html("<div class='alert-success'>"+res+"</div>");
+                    }).fail(function(xhr){
+                        reg_submit.val("Register");
+                        reg_submit.css("cursor","pointer");
+                        if(xhr.status===400){
+                            reg_message.css("visibility","visible").html("<div class='alert-error'>Please provide valid values then try again!</div>");
+                        }else{
+                            reg_message.css("visibility","visible").html("<div class='alert-error'>Username or Email already exist! Fail to register the user!</div>");
+                        }
+                    });
+                });
+            }
+        });
         //blog specific
         var blog_content=$("#blog_content");
         if(blog_content.length>0){
