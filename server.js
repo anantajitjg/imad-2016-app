@@ -86,7 +86,7 @@ app.post("/register",function(req,res){
     var salt = crypto.randomBytes(128).toString('hex');
     var hashed_pwd= pwd_hash(password,salt);
     var user_logo="user_logo.png";
-    var user_first_char=username.charAt(0);
+    var user_first_char=(username.charAt(0)).toLowerCase();
     if(/[a-zA-Z0-9]/.test(user_first_char)){
         user_logo=user_first_char+"_"+get_random_number(1,3)+".png";
     }
