@@ -20,7 +20,7 @@ app.use(session({
 }));
 //db specific
 var dbconfig=new DBConfig();
-var pool=new Pool(dbconfig.setup.prod);
+var pool=new Pool(dbconfig.setup('prod'));
 //template specific
 var articleTemplate=new ArticleTemplate();
 //login specific
