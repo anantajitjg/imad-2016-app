@@ -9,6 +9,7 @@ var bodyParser=require('body-parser');
 var session=require('express-session');
 
 var app = express();
+app.set('port', (process.env.PORT || 8080));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 //session specific
@@ -348,7 +349,6 @@ app.get('/menu',function(req,res){
 //loading static files
 app.use(express.static(path.join(__dirname, 'ui')));
 
-var port = 8080; // Use 8080 for local development because you might already have apache running on 80
-app.listen(port, function () {
-  console.log(`IMAD course app listening on port ${port}!`);
+app.listen(app.get('port'), function() {
+  console.log('IMAD course app is running on port', app.get('port'));
 });
