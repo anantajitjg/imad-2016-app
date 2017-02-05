@@ -1,4 +1,4 @@
-# [IMAD 2016 Application](http://anantajitjg.imad.hasura-app.io/)
+# [IMAD 2016 Application](https://anantajitjg-imad-2016.herokuapp.com/)
 
 This web application is developed as part of the Introduction to Modern Application Development(IMAD) Course. IMAD is an online course offered by IIT Madras & Hasura. <http://www.imad.tech/>
 
