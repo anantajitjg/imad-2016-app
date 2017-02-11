@@ -7,8 +7,8 @@ This web application is developed as part of the Introduction to Modern Applicat
 ## Developer
 **Anantajit**
 
+- <https://anantajitjg.github.io>
 - <https://github.com/anantajitjg>
-- <http://anantajitjg.imad.hasura-app.io>
 
 ## Credits
 
